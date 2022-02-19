@@ -56,7 +56,17 @@ How many different job titles are there?*/
 FROM data_analyst_jobs
 WHERE title LIKE '%Analyst%';1636*/
 /*12.	How many different job titles do not contain either the word
-‘Analyst’ or the word ‘Analytics’? What word do these positions have in common?*/
+/*‘Analyst’ or the word ‘Analytics’? What word do these positions have in common?*/
 SELECT DISTINCT title
 FROM data_analyst_jobs
-WHERE title NOT LIKE '%Analyst%';
+WHERE upper(title) NOT LIKE '%ANALYST%' AND upper(title) NOT LIKE  '%ANALYTICS%';*/
+/*Bonus: You want to understand which jobs requiring SQL are hard to fill. Find the number of jobs by industry (domain) that require SQL and have been posted longer than 3 weeks. 
+ - Disregard any postings where the domain is NULL. 
+ - Order your results so that the domain with the greatest number of `hard to fill` jobs is at the top. 
+  - Which three industries are in the top 4 on this list? How many jobs have been listed for more than 3 weeks for each of the top 4?*/
+SELECT domain, COUNT(domain) AS number_of_domain
+FROM data_analyst_jobs
+WHERE skill ILIKE '%SQL%' AND days_since_posting >21
+GROUP BY domain
+ORDER BY number_of_domain DESC
+LIMIT 4
